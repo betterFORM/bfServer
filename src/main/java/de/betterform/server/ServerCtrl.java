@@ -15,5 +15,6 @@ public interface ServerCtrl {
     public String getStatus();
     public boolean isRunning();
     public int getPort();
+    public String getContext();
     public String getWorkDir();
 }

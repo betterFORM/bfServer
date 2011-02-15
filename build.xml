@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- $Id: build.xml,v 1.90 2006/11/16 23:55:43 joernt Exp $ -->
-<project name="betterFORM Server" default="package" basedir="." >
+<project name="betterFORM Server" default="distribute" basedir="." >
 
     <!-- **************************************** PROPERTIES **************************************** -->
     <!-- **************************************** PROPERTIES **************************************** -->
@@ -27,24 +27,6 @@
         <delete dir="${basedir}/target"/>
     </target>
 
-    <!-- **************************************** PREPARATION **************************************** -->
-    <!-- **************************************** PREPARATION **************************************** -->
-    <!-- **************************************** PREPARATION **************************************** -->
-    <target name="prepare">
-        <mkdir dir="${basedir}/target"/>
-        <mkdir dir="${basedir}/target/classes"/>
-        <echo />
-        <echo message="************************************************************************************"/>
-        <echo message="copy dependent libs"/>
-        <echo message="************************************************************************************"/>
-        <echo />
-        
-        <mkdir dir="${app.path}"/>
-        <copy description="copy dependent libs" todir="${app.path}/bin" flatten="true">
-            <fileset dir="${basedir}/src/main/lib" />
-        </copy>
-    </target>
-
     <!-- **************************************** COMPILATION **************************************** -->
     <!-- **************************************** COMPILATION **************************************** -->
     <!-- **************************************** COMPILATION **************************************** -->
@@ -55,13 +37,14 @@
         b. call Ant like this: ant compile -Djavac.debug="true"
 
     -->
-    <target name="compile" depends="prepare" description="compile all server sources">
+    <target name="compile" description="compile all server sources">
 
         <echo />
         <echo message="************************************************************************************"/>
         <echo message="compiling Server classes"/>
         <echo message="************************************************************************************"/>
         <echo />
+	<mkdir dir="${target}/classes"/>
 
         <javac description="compile source files"
             srcdir="${basedir}/src/main/java"
@@ -82,14 +65,27 @@
         <echo message="************************************************************************************"/>
         <echo />
 
+	<mkdir dir="${target}/resources"/>
+	<copy todir="${target}/resources">
+		<fileset dir="${basedir}/src/main/resources" excludes="META-INF/server-conf-jetty.xml"/>
+	</copy>
+        
+	<jar description="package server jar"
+             manifest="${basedir}/src/main/resources/META-INF/MANIFEST.MF"
+             jarfile="${target}/${dist.name}-xrx.jar"
+             basedir="${target}/classes">
+            <fileset dir="${target}/resources"/>
+        </jar>
+
+	<copy tofile="${target}/resources/META-INF/server-conf.xml" file="${basedir}/src/main/resources/META-INF/server-conf-jetty.xml" overwrite="true"/>
+
         <jar description="package server jar"
              manifest="${basedir}/src/main/resources/META-INF/MANIFEST.MF"
-             jarfile="${target}/${dist.name}.jar"
+             jarfile="${target}/${dist.name}-jetty.jar"
              basedir="${basedir}/target/classes">
-            <fileset dir="${basedir}/src/main/resources"/>
+            <fileset dir="${target}/resources"/>
         </jar>
-        <copy tofile="${app.path}/${server.app.name}.jar"
-              file="${basedir}/target/${dist.name}.jar"/>
+
     </target>
 
     <!-- ****************************************  DISTRIBUTION **************************************** -->
@@ -103,23 +99,28 @@
         <echo message="************************************************************************************"/>
         <echo />
 
-        <!-- create binary tarball -->
-        <tar description="create binary tarball"
-            tarfile="${target}/${dist.name}-bin.tar"
-            basedir="${basedir}/target/server"/>
+	<mkdir dir="${target}/distribution"/>
+	<mkdir dir="${target}/distribution/lib"/>
 
-        <gzip description="create binary tarball"
-            zipfile="${target}/${dist.name}-bin.tar.gz"
-            src="${target}/${dist.name}-bin.tar"/>
+	<copy todir="${target}/distribution/lib">
+		<fileset dir="${basedir}/src/main/lib" excludes="start-*"/>
+	</copy>
 
-        <!-- create binary zip -->
-        <zip zipfile="${target}/${dist.name}-bin.zip" description="create binary zip">
-            <tarfileset src="${target}/${dist.name}-bin.tar"/>
-        </zip>
+	<copy tofile="${target}/distribution/${dist.name}.jar" file="${basedir}/target/${dist.name}-jetty.jar"/>
 
+	<zip description="create distribution zipfile" destfile="${target}/${dist.name}-jetty-distribution.zip" compress="true">
+		<fileset dir="${target}/distribution"/>
+	</zip>
 
-        <delete description="create binary tarball"
-            file="${target}/${dist.name}-bin.tar"/>
+	<copy tofile="${target}/distribution/${dist.name}.jar" file="${basedir}/target/${dist.name}-xrx.jar" overwrite="true"/>
+
+	<delete>
+		<fileset dir="${target}/distribution/lib" excludes="ant* BrowserLauncher2*"/>
+	</delete>
+
+	<zip description="create distribution zipfile" destfile="${target}/${dist.name}-xrx-distribution.zip" compress="true">
+		<fileset dir="${target}/distribution"/>
+	</zip>
     </target>
 
 

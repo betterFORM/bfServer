@@ -10,6 +10,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Commandline;
 import org.apache.tools.ant.types.Path;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class ServerWrapper {
         project.addBuildListener(logger);
 
         Java java = new Java();
-        java.setFork(false);
+        java.setFork(true);
         java.setSpawn(false);
         java.setClassname(de.betterform.server.Server.class.getName());
         java.setProject(project);
@@ -84,20 +85,17 @@ public class ServerWrapper {
         //TODO: get more XRX options
         StringBuffer eXistOpts = new StringBuffer();
         String xrxHome = getProperties().getProperty("xrx.home", "");
-        String endorsedDirs = getProperties().getProperty("endorsed.dirs", "");
-
-        if ("".equals(xrxHome)) {
-            throw new RuntimeException("To run betterFORM XRX you must set xrx.home in server-conf.xml");
-        } else {
-            eXistOpts.append(" ");
-            eXistOpts.append("-Dexist.home=");
-            eXistOpts.append(xrxHome);
-        }
-        if (!"".equals(endorsedDirs)) {
-            eXistOpts.append(" ");
-            eXistOpts.append("-Djava.endorsed.dirs=");
-            eXistOpts.append(endorsedDirs);
-        }
+	String workingDirectory = new File(xrxHome).getAbsolutePath();
+	String endorsedDirs = workingDirectory + "/" + getProperties().getProperty("endorsed.dirs", "lib/endorsed");
+        
+	eXistOpts.append(" ");
+	eXistOpts.append("-Dexist.home=");
+	eXistOpts.append(workingDirectory);
+       
+	eXistOpts.append(" ");
+	eXistOpts.append("-Djava.endorsed.dirs=");
+	eXistOpts.append(endorsedDirs);
+       
 
         return eXistOpts.toString();
     }

@@ -123,7 +123,7 @@ public class BfDialog extends JFrame implements ActionListener {
     private void startBrowser() {
         try {
             BrowserLauncher launcher = new BrowserLauncher(null);
-            launcher.openURLinBrowser("http://localhost:" + serverCtrl.getPort());
+            launcher.openURLinBrowser("http://localhost:" + serverCtrl.getPort() + serverCtrl.getContext());
 
         } catch (BrowserLaunchingInitializingException e2) {
             e2.printStackTrace();

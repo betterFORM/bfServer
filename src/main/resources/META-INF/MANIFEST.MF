@@ -4,5 +4,5 @@ Created-By: betterFORM
 Built-By: Lars Windauer
 Build-Jdk: 1.6.0_22
 Main-Class: de/betterform/server/ServerWrapper
-Class-Path: bin/ant-1.6.5.jar bin/BrowserLauncher2.jar bin/commons-jxpath-1.2.jar bin/core-3.1.1.jar bin/jetty.jar bin/jetty-util.jar bin/jsp-2.1-glassfish-9.1.1.B60.25.p2.jar bin/jsp-2.1-jetty-6.1.22.jar bin/jsp-api-2.1-glassfish-9.1.1.B60.25.p2.jar bin/servlet-api-2.5.jar bin/start-1.4.0.jar
+Class-Path: lib/ant-1.6.5.jar lib/BrowserLauncher2.jar lib/commons-jxpath-1.2.jar lib/core-3.1.1.jar lib/jetty.jar lib/jetty-util.jar lib/jsp-2.1-glassfish-9.1.1.B60.25.p2.jar lib/jsp-2.1-jetty-6.1.22.jar lib/jsp-api-2.1-glassfish-9.1.1.B60.25.p2.jar lib/servlet-api-2.5.jar lib/start-1.4.0.jar start.jar
 

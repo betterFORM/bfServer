@@ -17,6 +17,7 @@ public abstract class AbstractServerCtrl implements ServerCtrl {
     private static ServerCtrl instance = null;
 
     private static int port = -1;
+    private static String context = null;
     private static String ctrlClass = null;
     private static Properties properties = null;
     private static String workingDirectory = new File(".").getAbsolutePath();
@@ -84,7 +85,15 @@ public abstract class AbstractServerCtrl implements ServerCtrl {
         return this.port;
     }
 
+    public String getContext() {
+        if (this.context == null) {
+            this.context = getProperties().getProperty("context", "/betterform");
+        }
+        return this.context;
+    }
+
      public String getWorkDir() {
+	 System.out.println("WorkingDir: " + this.workingDirectory);
          return this.workingDirectory;
      }
 }
