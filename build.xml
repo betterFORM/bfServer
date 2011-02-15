@@ -100,28 +100,59 @@
         <echo />
 
 	<mkdir dir="${target}/distribution"/>
-	<mkdir dir="${target}/distribution/lib"/>
+	<antcall target="distribute-jetty"/>
+	<antcall target="distribute-xrx"/>
 
-	<copy todir="${target}/distribution/lib">
+	
+
+	
+
+	
+
+	
+    </target>
+
+    <target name="distribute-jetty">
+ 	<echo />
+        <echo message="************************************************************************************"/>
+        <echo message="creating jetty distribution"/>
+        <echo message="************************************************************************************"/>
+        <echo />
+	<mkdir dir="${target}/distribution/jetty/betterform/lib"/>
+	<mkdir dir="${target}/distribution/jetty/betterform/logs"/>
+	<mkdir dir="${target}/distribution/jetty/betterform/web/root"/>
+
+	<copy todir="${target}/distribution/jetty/betterform/lib">
 		<fileset dir="${basedir}/src/main/lib" excludes="start-*"/>
 	</copy>
 
-	<copy tofile="${target}/distribution/${dist.name}.jar" file="${basedir}/target/${dist.name}-jetty.jar"/>
+	<copy tofile="${target}/distribution/jetty/betterform/${dist.name}.jar" file="${basedir}/target/${dist.name}-jetty.jar"/>
 
 	<zip description="create distribution zipfile" destfile="${target}/${dist.name}-jetty-distribution.zip" compress="true">
-		<fileset dir="${target}/distribution"/>
-	</zip>
-
-	<copy tofile="${target}/distribution/${dist.name}.jar" file="${basedir}/target/${dist.name}-xrx.jar" overwrite="true"/>
-
-	<delete>
-		<fileset dir="${target}/distribution/lib" excludes="ant* BrowserLauncher2*"/>
-	</delete>
-
-	<zip description="create distribution zipfile" destfile="${target}/${dist.name}-xrx-distribution.zip" compress="true">
-		<fileset dir="${target}/distribution"/>
+		<fileset dir="${target}/distribution/jetty"/>
 	</zip>
     </target>
 
+    <target name="distribute-xrx">
+	<echo />
+        <echo message="************************************************************************************"/>
+        <echo message="creating xrx distribution"/>
+        <echo message="************************************************************************************"/>
+        <echo />
+	<mkdir dir="${target}/distribution/xrx/lib"/>
 
+	<copy todir="${target}/distribution/xrx/lib">
+		<fileset dir="${basedir}/src/main/lib" excludes="start-*"/>
+	</copy>
+
+	<copy tofile="${target}/distribution/xrx/${dist.name}.jar" file="${basedir}/target/${dist.name}-xrx.jar"/>
+
+	<delete>
+		<fileset dir="${target}/distribution/xrx/lib" excludes="ant* BrowserLauncher2*"/>
+	</delete>
+
+	<zip description="create distribution zipfile" destfile="${target}/${dist.name}-xrx-distribution.zip" compress="true">
+		<fileset dir="${target}/distribution/xrx"/>
+	</zip>
+    </target>
 </project>

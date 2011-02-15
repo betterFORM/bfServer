@@ -10,7 +10,7 @@
     </properties>
     <server>
         <app>
-            <name>betterform</name>
+            <name>betterFORM-Launcher</name>
             <version>1.3</version>
         </app>
         <compile>
