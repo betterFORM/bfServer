@@ -11,19 +11,19 @@
     <server>
         <app>
             <name>betterFORM-Launcher</name>
-            <version>1.3</version>
+            <version>1.4</version>
         </app>
         <compile>
             <classpath pathid="compile.class.path" description="classpath for compiling core classes">
                 <pathelement path="${basedir}/target/classes"/>
-                <pathelement location="${basedir}/src/main/lib/ant-1.6.5.jar" />
+                <pathelement location="${basedir}/src/main/lib/ant-1.8.2.jar" />
                 <pathelement location="${basedir}/src/main/lib/BrowserLauncher2.jar" />
-                <pathelement location="${basedir}/src/main/lib/jetty.jar" />
-                <pathelement location="${basedir}/src/main/lib/jetty-util.jar" />
+                <pathelement location="${basedir}/src/main/lib/jetty-6.1.22.jar" />
+                <pathelement location="${basedir}/src/main/lib/jetty-util-6.1.22.jar" />
                 <pathelement location="${basedir}/src/main/lib/jsp-2.1-6.0.2.jar" />
                 <pathelement location="${basedir}/src/main/lib/jsp-api-2.1.jar" />
-                <pathelement location="${basedir}/src/main/lib/servlet-api-2.5.jar" />
-                <pathelement location="${basedir}/src/main/lib/start-1.4.0.jar" />
+                <pathelement location="${basedir}/src/main/lib/servlet-api-2.5-20081211.jar" />
+                <pathelement location="${basedir}/src/main/lib/start-1.4.1.jar" />
             </classpath>
         </compile>
     </server>
