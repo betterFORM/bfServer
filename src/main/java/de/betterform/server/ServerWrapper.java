@@ -78,6 +78,12 @@ public class ServerWrapper {
         if (serverCtrlClass.toLowerCase().contains("xrx")) {
             javaOpts.append(getXRXOpts());
         }
+
+        //Copy specified "server.port" to new JavaOpts
+        if (System.getProperties().containsKey("server.port")) {
+            javaOpts.append(" -Dserver.port=" + System.getProperties().get("server.port"));
+        }
+
         return javaOpts.toString();
     }
 

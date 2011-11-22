@@ -80,7 +80,17 @@ public abstract class AbstractServerCtrl implements ServerCtrl {
 
     public int getPort() {
         if (this.port == -1) {
-            this.port = Integer.parseInt(getProperties().getProperty("port", "45898"));
+            //Try to use port from java opts
+            try {
+                this.port = Integer.parseInt(System.getProperties().getProperty("server.port", "-1"));
+            } catch (NumberFormatException nfe) {
+                System.out.println("You specified an invalid Port as Option to Java!");
+                nfe.printStackTrace();
+            }
+            //Fallback on configured port or default port.
+            if (this.port == -1) {
+                this.port = Integer.parseInt(getProperties().getProperty("port", "45898"));
+            }
         }
         return this.port;
     }

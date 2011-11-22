@@ -11,7 +11,7 @@
     <server>
         <app>
             <name>betterFORM-Launcher</name>
-            <version>1.4</version>
+            <version>1.4.1</version>
         </app>
         <compile>
             <classpath pathid="compile.class.path" description="classpath for compiling core classes">
